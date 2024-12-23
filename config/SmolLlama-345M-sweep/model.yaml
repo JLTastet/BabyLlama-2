@@ -1,0 +1,26 @@
+data:
+  tokenizer_path: "../models/gpt-clean-16000.json"
+  train_path: "../data/train_9.5M"
+  eval_path: "../data/select_0.5M"
+  test_path: "../data/dev_clean"
+  seq_length: 128
+
+model:
+  type: "Llama" # or "GPT2"
+  name: "SmolLlama-345M-sweep"
+  hidden_size: 960
+  intermediate_size: 2560
+  n_layer: 32
+  n_head: 15
+  n_KV: 5
+
+training:
+  max_per_device_batch_size: 64
+  fp16: True
+  torch_compile: True
+
+logging: 
+  wandb: True
+  project: "babylm2-sweeps"
+  # Use {NAME} and {ID} to respectively insert the model name and unique ID
+  output_path: "../models/{NAME}/{ID}"

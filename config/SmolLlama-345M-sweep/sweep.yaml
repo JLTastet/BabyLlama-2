@@ -1,0 +1,60 @@
+program: sweep.py
+project: babylm2-sweeps
+name: SmolLlama-345M-sweep
+method: bayes
+metric:
+  goal: minimize
+  name: eval/loss
+early_terminate:
+  type: hyperband
+  min_iter: 1
+  eta: 2
+command:
+  - ${env}
+  - python
+  - ${program}
+  - "--config"
+  - ../config/SmolLlama-345M-sweep/model.yaml
+parameters:
+  batch_size:
+    distribution: q_log_normal
+    mu: 5
+    sigma: 1.5
+  num_epochs:
+    distribution: q_log_normal
+    mu: 1.8
+    sigma: 0.7
+  lr:
+    distribution: log_normal
+    mu: -7.3
+    sigma: 0.7
+  one_minus_adam_beta1:
+    distribution: log_uniform_values
+    min: 1e-2
+    max: 1
+  one_minus_adam_beta2:
+    distribution: log_uniform_values
+    min: 1e-4
+    max: 1e-2
+  adam_epsilon:
+    distribution: log_normal
+    mu: -13.8
+    sigma: 3.5
+  lr_scheduler_type:
+    values: ["linear", "cosine"]
+  weight_decay:
+    distribution: log_normal
+    mu: 1
+    sigma: 1.5
+  max_grad_norm:
+    distribution: log_normal
+    mu: 0
+    sigma: 1
+  num_warmup_steps:
+    distribution: q_log_normal
+    mu: 5.7
+    sigma: 1
+  attention_dropout:
+    distribution: uniform
+    min: 0
+    max: 1
